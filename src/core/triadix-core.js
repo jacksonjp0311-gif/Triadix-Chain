@@ -937,6 +937,7 @@ export class TriadicEngine {
       chain: this.chain, mempool: this.mempool, waitingMempool: this.waitingMempool,
       accountNonces: this.accountNonces, receipts: this.receipts,
       checkpoints: this.checkpointMap(), status: this.statusReport(),
+      contracts_json: JSON.stringify(Array.from(this.vm.contracts.entries()).map(([addr, c]) => [addr, { code: c.code, state: c.state, owner: c.owner }])),
       chainId: this.chainId,
     };
   }
@@ -960,7 +961,17 @@ export class TriadicEngine {
     if (data.hI) engine.hI = Buffer.from(data.hI, 'hex');
     if (data.hC) engine.hC = Buffer.from(data.hC, 'hex');
     if (data.chainId) engine.chainId = data.chainId;
-    return engine;
+    
+    // Restore VM contracts
+    if (data.contracts_json) {
+      try {
+        const contracts = JSON.parse(data.contracts_json);
+        for (const [addr, c] of contracts) {
+          engine.vm.contracts.set(addr, { code: c.code, state: c.state, owner: c.owner });
+        }
+      } catch (e) { console.warn('Failed to restore contracts:', e.message); }
+    }
+return engine;
   }
 }
 
