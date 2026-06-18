@@ -181,7 +181,7 @@ This creates three **independent but entangled** hash trajectories. The coherenc
 
 **Calibrated anchor:** 100K blocks at 3,442 blocks/sec → p25 = 0.244 = τ, 75.1% fraction ≥ τ
 
-## 🔧 8 AGNT Tools
+## 🔧 8 Triadix Ledger Tools
 
 | Tool | Purpose | Key Parameters |
 |------|---------|---------------|
@@ -328,6 +328,36 @@ Triadix-Chain/
     ├── package.json
     └── README.md               ← Plugin-specific docs
 ```
+
+## 🏛️ Triadix Governance Plugin
+
+A smart contract governance layer that any agent can install and use:
+
+| Tool | Purpose |
+|------|---------|
+| **gov-create-dao** | Create a new DAO with governance rules (quorum, voting period, members) |
+| **gov-propose** | Submit proposals: actions, member management, parameter changes |
+| **gov-vote** | Cast votes on active proposals (only DAO members) |
+| **gov-execute** | Execute passed proposals after voting period ends |
+| **gov-dao-info** | Get full DAO status: members, proposals, rules |
+
+**Plugin:** `agnt-plugin/triadix-governance.agnt` (50.2 KB)
+**Source:** `agnt-plugin/triadix-governance/`
+
+## 🏛️ Triadix Governance Plugin
+
+A smart contract governance layer that any agent can install and use:
+
+| Tool | Purpose |
+|------|---------|
+| **gov-create-dao** | Create a new DAO with governance rules (quorum, voting period, members) |
+| **gov-propose** | Submit proposals: actions, member management, parameter changes |
+| **gov-vote** | Cast votes on active proposals (only DAO members) |
+| **gov-execute** | Execute passed proposals after voting period ends |
+| **gov-dao-info** | Get full DAO status: members, proposals, rules |
+
+**Plugin:** `agnt-plugin/triadix-governance.agnt` (50.2 KB)
+**Source:** `agnt-plugin/triadix-governance/`
 
 ## 🧪 Running Tests
 
