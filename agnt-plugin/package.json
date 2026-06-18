@@ -1,0 +1,7 @@
+{
+  "name": "triadix-ledger",
+  "version": "3.0.0",
+  "type": "module",
+  "description": "Coherence-native triadic ledger kernel v3.0 for AGNT",
+  "dependencies": {}
+}

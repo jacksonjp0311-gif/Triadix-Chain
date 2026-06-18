@@ -1,0 +1,220 @@
+{
+  "name": "triadix-ledger",
+  "displayName": "Triadix Ledger",
+  "version": "3.0.0",
+  "description": "Coherence-native triadic ledger kernel v3.0. Full distributed ledger platform: triadic hash chains, coherence monitoring, smart contracts with gas metering, Ed25519 wallet signing, Merkle proofs, PBFT consensus with view changes, WebSocket P2P gossip, agent memory integration, and SQLite persistence. Zero dependencies.",
+  "author": "James Jackson",
+  "icon": "link",
+  "homepage": "https://github.com/jacksonjp0311-gif",
+  "tools": [
+    {
+      "type": "triadix-run",
+      "entryPoint": "./triadix-run.js",
+      "schema": {
+        "title": "Triadix Run",
+        "category": "action",
+        "type": "triadix-run",
+        "icon": "link",
+        "description": "Generate a triadic hash chain with full coherence metrics, validation, health report, Merkle root, and all v3.0 subsystem status.",
+        "parameters": {
+          "blocks": { "type": "number", "inputType": "number", "required": false, "default": 96, "minimum": 1, "maximum": 100000, "description": "Number of blocks (default: 96)" },
+          "tau": { "type": "number", "inputType": "number", "required": false, "default": 0.244, "minimum": 0, "maximum": 1, "description": "Coherence threshold (default: 0.244)" },
+          "healthMode": { "type": "string", "inputType": "select", "required": false, "options": ["p05","p25","p50","p95","all","fraction"], "default": "p25", "description": "Health mode" },
+          "nodeId": { "type": "string", "inputType": "text", "required": false, "default": "node-1", "description": "Node identity" },
+          "validators": { "type": "string", "inputType": "text", "required": false, "description": "Comma-separated validator IDs" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "chainLength": { "type": "number" }, "valid": { "type": "boolean" },
+          "healthy": { "type": "boolean" }, "coherence": { "type": "object" }, "merkleRoot": { "type": "string" },
+          "elapsedSeconds": { "type": "number" }, "blocksPerSecond": { "type": "number" },
+          "contracts": { "type": "array" }, "vmGasUsed": { "type": "number" },
+          "consensusState": { "type": "object" }, "networkState": { "type": "object" },
+          "agentActions": { "type": "number" }, "agentCoherence": { "type": "object" },
+          "wallets": { "type": "number" }, "asciiChart": { "type": "string" },
+          "summaryMarkdown": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-submit-tx",
+      "entryPoint": "./triadix-submit-tx.js",
+      "schema": {
+        "title": "Triadix Submit Transaction",
+        "category": "action",
+        "type": "triadix-submit-tx",
+        "icon": "link",
+        "description": "Submit a transaction to the mempool. Supports Ed25519 signing. Auto-broadcasts via gossip.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to ledger_state.json" },
+          "sender": { "type": "string", "inputType": "text", "required": true, "description": "Sender ID" },
+          "receiver": { "type": "string", "inputType": "text", "required": true, "description": "Receiver ID" },
+          "amount": { "type": "number", "inputType": "number", "required": false, "default": 10, "description": "Amount" },
+          "data": { "type": "string", "inputType": "text", "required": false, "default": "", "description": "Optional data" },
+          "nonce": { "type": "number", "inputType": "number", "required": false, "default": 0, "description": "Nonce (0=auto)" },
+          "sign": { "type": "string", "inputType": "select", "required": false, "options": ["true","false"], "default": "false", "description": "Sign with Ed25519" },
+          "walletLabel": { "type": "string", "inputType": "text", "required": false, "description": "Wallet label for signing" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "txId": { "type": "string" }, "accepted": { "type": "boolean" },
+          "queued": { "type": "boolean" }, "mempoolSize": { "type": "number" }, "gossipBroadcast": { "type": "boolean" },
+          "signed": { "type": "boolean" }, "signature": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-status",
+      "entryPoint": "./triadix-status.js",
+      "schema": {
+        "title": "Triadix Status",
+        "category": "action",
+        "type": "triadix-status",
+        "icon": "link",
+        "description": "Full chain status: validation, health, coherence, mempool, Merkle root, contracts, consensus, network, agent actions.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to ledger_state.json" },
+          "tau": { "type": "number", "inputType": "number", "required": false, "default": 0.244, "description": "Coherence threshold" },
+          "healthMode": { "type": "string", "inputType": "select", "required": false, "options": ["p05","p25","p50","p95","all","fraction"], "default": "p25", "description": "Health mode" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "chainLength": { "type": "number" }, "valid": { "type": "boolean" },
+          "healthy": { "type": "boolean" }, "coherence": { "type": "object" }, "merkleRoot": { "type": "string" },
+          "contracts": { "type": "array" }, "vmGasUsed": { "type": "number" },
+          "consensusState": { "type": "object" }, "networkState": { "type": "object" },
+          "agentActions": { "type": "number" }, "agentCoherence": { "type": "object" },
+          "wallets": { "type": "number" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-health-report",
+      "entryPoint": "./triadix-health-report.js",
+      "schema": {
+        "title": "Triadix Health Report",
+        "category": "action",
+        "type": "triadix-health-report",
+        "icon": "link",
+        "description": "Detailed health report with ASCII coherence chart, markdown summary, and all v3.0 subsystem status.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to ledger_state.json" },
+          "tau": { "type": "number", "inputType": "number", "required": false, "default": 0.244, "description": "Coherence threshold" },
+          "healthMode": { "type": "string", "inputType": "select", "required": false, "options": ["p05","p25","p50","p95","all","fraction"], "default": "p25", "description": "Health mode" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "chainLength": { "type": "number" }, "valid": { "type": "boolean" },
+          "healthy": { "type": "boolean" }, "coherence": { "type": "object" }, "merkleRoot": { "type": "string" },
+          "asciiChart": { "type": "string" }, "summaryMarkdown": { "type": "string" },
+          "healthVerdict": { "type": "string" }, "contracts": { "type": "array" },
+          "consensusState": { "type": "object" }, "networkState": { "type": "object" },
+          "agentCoherence": { "type": "object" }, "wallets": { "type": "number" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-deploy-contract",
+      "entryPoint": "./triadix-deploy-contract.js",
+      "schema": {
+        "title": "Triadix Deploy Contract",
+        "category": "action",
+        "type": "triadix-deploy-contract",
+        "icon": "link",
+        "description": "Deploy or call smart contracts with gas metering. Sandboxed JS VM with state, logging, transfers.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": false, "description": "Path to ledger_state.json" },
+          "contractAddress": { "type": "string", "inputType": "text", "required": true, "description": "Contract address/ID" },
+          "action": { "type": "string", "inputType": "select", "required": true, "options": ["deploy","call"], "default": "deploy", "description": "Deploy or call" },
+          "contractCode": { "type": "string", "inputType": "textarea", "required": false, "description": "JS code for contract. Access: state, caller, args, log(), transfer(), now, add(), mul()" },
+          "owner": { "type": "string", "inputType": "text", "required": false, "default": "deployer", "description": "Owner/caller" },
+          "method": { "type": "string", "inputType": "text", "required": false, "default": "main", "description": "Method to call" },
+          "args": { "type": "string", "inputType": "text", "required": false, "description": "JSON args object" },
+          "initialState": { "type": "string", "inputType": "text", "required": false, "description": "JSON initial state" },
+          "gasLimit": { "type": "number", "inputType": "number", "required": false, "default": 100000, "description": "Gas limit for execution" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "contractAddress": { "type": "string" }, "action": { "type": "string" },
+          "result": { "type": "object" }, "contractState": { "type": "object" }, "allContracts": { "type": "array" },
+          "vmLogs": { "type": "array" }, "gasConsumed": { "type": "number" },
+          "chainLength": { "type": "number" }, "chainValid": { "type": "boolean" },
+          "asciiChart": { "type": "string" }, "summaryMarkdown": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-consensus",
+      "entryPoint": "./triadix-consensus.js",
+      "schema": {
+        "title": "Triadix Consensus",
+        "category": "action",
+        "type": "triadix-consensus",
+        "icon": "link",
+        "description": "Full PBFT consensus: propose, prepare, commit, view changes, checkpointing, state transfer.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": false, "description": "Path to ledger_state.json" },
+          "action": { "type": "string", "inputType": "select", "required": true, "options": ["status","add-validators","remove-validator","elect-primary","propose","vote","check","commit-block","view-change","state-transfer"], "default": "status", "description": "Consensus action" },
+          "proposalId": { "type": "string", "inputType": "text", "required": false, "description": "Proposal ID" },
+          "validatorId": { "type": "string", "inputType": "text", "required": false, "description": "Validator ID" },
+          "approve": { "type": "string", "inputType": "select", "required": false, "options": ["true","false"], "default": "true", "description": "Vote approve/reject" },
+          "phase": { "type": "string", "inputType": "select", "required": false, "options": ["prepare","commit"], "default": "prepare", "description": "PBFT phase for vote" },
+          "validators": { "type": "string", "inputType": "text", "required": false, "description": "Comma-separated validator IDs" },
+          "newView": { "type": "number", "inputType": "number", "required": false, "default": 1, "description": "New view number for view-change" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "action": { "type": "string" }, "consensusResult": { "type": "object" },
+          "consensusState": { "type": "object" }, "chainLength": { "type": "number" }, "chainValid": { "type": "boolean" },
+          "asciiChart": { "type": "string" }, "summaryMarkdown": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-gossip",
+      "entryPoint": "./triadix-gossip.js",
+      "schema": {
+        "title": "Triadix Gossip",
+        "category": "action",
+        "type": "triadix-gossip",
+        "icon": "link",
+        "description": "P2P gossip protocol with WebSocket transport. Peers, broadcast, network simulation.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": false, "description": "Path to ledger_state.json" },
+          "action": { "type": "string", "inputType": "select", "required": true, "options": ["gossip-status","add-peer","remove-peer","list-peers","broadcast-tx","broadcast-block","start-ws-server","stop-ws-server","connect-ws","full-network-sim"], "default": "gossip-status", "description": "Gossip action" },
+          "peerId": { "type": "string", "inputType": "text", "required": false, "description": "Peer ID" },
+          "peerHost": { "type": "string", "inputType": "text", "required": false, "default": "127.0.0.1", "description": "Peer host" },
+          "peerPort": { "type": "number", "inputType": "number", "required": false, "default": 0, "description": "Peer port" },
+          "messageType": { "type": "string", "inputType": "select", "required": false, "options": ["NEW_TX","NEW_BLOCK","PEER_DISCOVERY","CHAIN_SYNC","CONSENSUS_VOTE"], "default": "PEER_DISCOVERY", "description": "Message type" },
+          "simulatePeers": { "type": "number", "inputType": "number", "required": false, "default": 5, "minimum": 2, "maximum": 50, "description": "Peers for simulation" },
+          "wsPort": { "type": "number", "inputType": "number", "required": false, "description": "WebSocket server port" },
+          "wsConnectHost": { "type": "string", "inputType": "text", "required": false, "description": "WS peer host to connect to" },
+          "wsConnectPort": { "type": "number", "inputType": "number", "required": false, "description": "WS peer port to connect to" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "action": { "type": "string" }, "gossipResult": { "type": "object" },
+          "networkState": { "type": "object" }, "chainLength": { "type": "number" }, "chainValid": { "type": "boolean" },
+          "asciiChart": { "type": "string" }, "summaryMarkdown": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "triadix-persist",
+      "entryPoint": "./triadix-persist.js",
+      "schema": {
+        "title": "Triadix Persistence",
+        "category": "action",
+        "type": "triadix-persist",
+        "icon": "link",
+        "description": "Chain persistence: save/load, import/export, list chains, chain info. AGNT SQLite integration ready.",
+        "parameters": {
+          "action": { "type": "string", "inputType": "select", "required": true, "options": ["save","load","chain-info","list-chains","import-chain"], "default": "save", "description": "Persistence action" },
+          "stateFile": { "type": "string", "inputType": "text", "required": false, "description": "Path to ledger_state.json" },
+          "chainId": { "type": "string", "inputType": "text", "required": false, "description": "Chain ID" },
+          "name": { "type": "string", "inputType": "text", "required": false, "description": "Chain name" },
+          "loadFile": { "type": "string", "inputType": "text", "required": false, "description": "File to load" },
+          "exportPath": { "type": "string", "inputType": "text", "required": false, "description": "Export path" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "action": { "type": "string" }, "persistResult": { "type": "object" },
+          "chainLength": { "type": "number" }, "chainValid": { "type": "boolean" },
+          "asciiChart": { "type": "string" }, "summaryMarkdown": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    }
+  ]
+}

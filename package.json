@@ -1,0 +1,52 @@
+{
+  "name": "triadix-chain",
+  "version": "3.0.0",
+  "description": "Coherence-native triadic ledger kernel. Full distributed ledger platform with smart contracts, PBFT consensus, Ed25519 wallets, Merkle proofs, WebSocket P2P, and agent memory integration.",
+  "type": "module",
+  "main": "src/core/triadix-core.js",
+  "exports": {
+    ".": "./src/core/triadix-core.js",
+    "./core": "./src/core/triadix-core.js",
+    "./tools": "./src/tools/"
+  },
+  "scripts": {
+    "test": "node tests/triadix.test.js",
+    "example:basic": "node examples/basic-chain.js",
+    "example:contract": "node examples/smart-contract.js",
+    "example:consensus": "node examples/consensus.js",
+    "example:p2p": "node examples/p2p-network.js",
+    "example:agent": "node examples/agent-memory.js"
+  },
+  "keywords": [
+    "blockchain",
+    "ledger",
+    "triadic",
+    "coherence",
+    "consensus",
+    "pbft",
+    "smart-contracts",
+    "ed25519",
+    "merkle",
+    "p2p",
+    "websocket",
+    "agent-memory",
+    "agnt",
+    "plugin"
+  ],
+  "author": "James Jackson <jacksonjp0311-gif>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacksonjp0311-gif/Triadix-Chain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jacksonjp0311-gif/Triadix-Chain/issues"
+  },
+  "homepage": "https://github.com/jacksonjp0311-gif/Triadix-Chain#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.16.0"
+  }
+}

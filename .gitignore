@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.env
+triadix-run/
+*.agnt.bak
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+dist/
+build/
+coverage/
