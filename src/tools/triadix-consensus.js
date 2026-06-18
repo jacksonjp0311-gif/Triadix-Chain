@@ -1,5 +1,11 @@
-import { TriadicEngine, asciiCoherenceChart, formatSummaryMarkdown } from './triadix-core.js';
+import { TriadicEngine, asciiCoherenceChart, formatSummaryMarkdown, normalizeValidatorIds } from './triadix-core.js';
 import fs from 'fs';
+
+function parseBool(value, defaultValue = false) {
+  if (value === true || value === 'true') return true;
+  if (value === false || value === 'false') return false;
+  return defaultValue;
+}
 
 class TriadixConsensus {
   constructor() { this.name = 'triadix-consensus'; }
@@ -10,8 +16,8 @@ class TriadixConsensus {
       const stateFile = String(params?.stateFile || '').trim();
       const proposalId = String(params?.proposalId || '').trim();
       const validatorId = String(params?.validatorId || '').trim();
-      const approve = params?.approve !== undefined ? Boolean(params?.approve) : true;
-      const newValidators = params?.validators || [];
+      const approve = parseBool(params?.approve, true);
+      const newValidators = normalizeValidatorIds(params?.validators);
       const phase = String(params?.phase || 'prepare');
       const newView = Number(params?.newView || 0);
 

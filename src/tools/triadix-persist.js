@@ -55,7 +55,7 @@ class TriadixPersist {
             try {
               const data = JSON.parse(fs.readFileSync(path.join(stateDir, f), 'utf-8'));
               return { file: f, chainId: data.chainId || 'unknown', chainLength: data.chain?.length || 0, mempoolSize: data.mempool?.length || 0, updatedAt: fs.statSync(path.join(stateDir, f)).mtime.toISOString(), sizeKB: (fs.statSync(path.join(stateDir, f)).size / 1024).toFixed(1) };
-            } catch { return { file: f, error: 'parse_failed' };
+            } catch { return { file: f, error: 'parse_failed' }; }
           }), count: files.length, directory: stateDir };
           break;
         }

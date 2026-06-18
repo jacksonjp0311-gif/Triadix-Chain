@@ -21,6 +21,16 @@ import { WebSocketServer, WebSocket } from 'ws';
 // 1. HASH PRIMITIVES
 // ═══════════════════════════════════════════════════════════════════
 
+export function normalizeValidatorIds(validators = []) {
+  if (validators == null) return [];
+  const raw = Array.isArray(validators)
+    ? validators
+    : String(validators).split(',');
+  return raw
+    .map((v) => String(v).trim())
+    .filter((v) => v.length > 0);
+}
+
 export function sha256(x) {
   return crypto.createHash('sha256').update(x).digest();
 }
@@ -294,7 +304,7 @@ export class ContractVM {
 export class PBFTConsensus {
   constructor(nodeId, validators = [], threshold = 0.67) {
     this.nodeId = nodeId;
-    this.validators = new Set(validators);
+    this.validators = new Set(normalizeValidatorIds(validators));
     this.threshold = threshold;
     this.viewNumber = 0;
     this.primary = null;
@@ -737,7 +747,7 @@ export class TriadicEngine {
     this.persistence = null;
 
     // v3.0 subsystems
-    this.consensus = new PBFTConsensus(opts.nodeId || 'node-1', opts.validators || []);
+    this.consensus = new PBFTConsensus(opts.nodeId || 'node-1', normalizeValidatorIds(opts.validators || []));
     this.agentBridge = new AgentMemoryBridge(this, opts.agentId || opts.nodeId || 'node-1');
     this.wallets = new Map(); // address → Wallet
     this.merkleTree = null;
