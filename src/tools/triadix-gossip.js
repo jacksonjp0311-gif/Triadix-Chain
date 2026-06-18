@@ -103,7 +103,7 @@ class TriadixGossip {
         error: '',
       };
     } catch (error) {
-      return { success: false, error: error?.message || String(error) });
+      return { success: false, error: error?.message || String(error) };
     }
   }
 }

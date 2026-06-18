@@ -1,6 +1,6 @@
 {
   "name": "triadix-chain",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Coherence-native triadic ledger kernel. Full distributed ledger platform with smart contracts, PBFT consensus, Ed25519 wallets, Merkle proofs, WebSocket P2P, and agent memory integration.",
   "type": "module",
   "main": "src/core/triadix-core.js",
@@ -15,7 +15,8 @@
     "example:contract": "node examples/smart-contract.js",
     "example:consensus": "node examples/consensus.js",
     "example:p2p": "node examples/p2p-network.js",
-    "example:agent": "node examples/agent-memory.js"
+    "example:agent": "node examples/agent-memory.js",
+    "test:agnt-plugin": "node tests/agnt-plugin.test.js"
   },
   "keywords": [
     "blockchain",
@@ -47,6 +48,6 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "ws": "^8.16.0"
+    "ws": "^8.18.0"
   }
 }

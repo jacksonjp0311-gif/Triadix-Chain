@@ -2,11 +2,11 @@
 
 **Three hashes. One truth. Zero blind spots.**
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/jacksonjp0311-gif/Triadix-Chain)
+[![Version](https://img.shields.io/badge/version-3.0.1-blue.svg)](https://github.com/jacksonjp0311-gif/Triadix-Chain)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![AGNT](https://img.shields.io/badge/AGNT-plugin-8B5CF6.svg)](https://agnt.gg)
 [![Tests](https://img.shields.io/badge/tests-43%2F43%20passing-brightgreen.svg)](tests/)
-[![Dependencies](https://img.shields.io/badge/dependencies-0-lightgrey.svg)](package.json)
+[![Dependencies](https://img.shields.io/badge/dependencies-ws-lightgrey.svg)](package.json)
 
 A **coherence-native triadic ledger kernel** — not just a hash chain, but a full distributed ledger platform. Create cryptographically verifiable chains, deploy smart contracts, run BFT consensus, coordinate agents over P2P gossip, and monitor the internal health of your system in real time.
 
@@ -64,7 +64,7 @@ All 6 gaps from the v2.0 roadmap are closed:
 │   │  Sign │ Verify │ Restore │ SPV Proofs │ Light Clients     │   │
 │   └────────────────────────────────────────────────────────────┘   │
 │                                                                     │
-│   8 Tools • Zero Dependencies • ~21 KB • 43/43 Tests Passing      │
+│   8 Tools • Bundled Dependencies • ~21 KB • 43/43 Tests Passing      │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -137,7 +137,7 @@ console.log('Agent coherence:', engine.agentBridge.getAgentCoherence());
 | 100K block validation | < 3 seconds |
 | Memory (100 blocks) | ~200 KB |
 | Memory (10K blocks) | ~20 MB |
-| Plugin size | 20.8 KB (zero dependencies) |
+| Plugin size | Generated .agnt package with bundled dependencies |
 | Test coverage | 43/43 tests passing (100%) |
 | Ed25519 sign | < 0.5ms per operation |
 | Merkle proof | < 0.1ms for 10K leaves |

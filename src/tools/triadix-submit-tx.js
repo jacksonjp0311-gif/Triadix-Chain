@@ -1,6 +1,12 @@
 import fs from 'fs';
 import { TriadicEngine, computeTxId, makeTx, Wallet } from './triadix-core.js';
 
+function parseBool(value, defaultValue = false) {
+  if (value === true || value === 'true') return true;
+  if (value === false || value === 'false') return false;
+  return defaultValue;
+}
+
 class TriadixSubmitTx {
   constructor() { this.name = 'triadix-submit-tx'; }
 
@@ -17,7 +23,7 @@ class TriadixSubmitTx {
       const amount = Number(params?.amount ?? 10);
       const data = String(params?.data || '');
       let nonce = Number(params?.nonce ?? 0);
-      const signTx = Boolean(params?.sign);
+      const signTx = parseBool(params?.sign, false);
       const walletLabel = String(params?.walletLabel || sender);
 
       const engine = TriadicEngine.loadFromFile(stateFile);

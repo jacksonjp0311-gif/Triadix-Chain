@@ -1,4 +1,4 @@
-import { TriadicEngine, asciiCoherenceChart, formatSummaryMarkdown } from './triadix-core.js';
+import { TriadicEngine, asciiCoherenceChart, formatSummaryMarkdown, normalizeValidatorIds } from './triadix-core.js';
 
 class TriadixRun {
   constructor() { this.name = 'triadix-run'; }
@@ -9,7 +9,7 @@ class TriadixRun {
       const tau = Number(params?.tau ?? 0.244);
       const healthMode = String(params?.healthMode ?? 'p25');
       const nodeId = String(params?.nodeId || 'node-1');
-      const validators = params?.validators || [];
+      const validators = normalizeValidatorIds(params?.validators);
 
       const t0 = Date.now();
       const engine = new TriadicEngine({ tau, healthMode, nodeId, validators });

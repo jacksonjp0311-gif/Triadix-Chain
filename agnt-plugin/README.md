@@ -43,7 +43,7 @@ That second question is the breakthrough. No other ledger monitors its own inter
 │  │ Log      │ │ Commit  │ │        │ │ Txns    │     │
 │  └──────────┘ └─────────┘ └────────┘ └─────────┘     │
 │                                                         │
-│  8 Tools • Zero Dependencies • ~15 KB                  │
+│  8 Tools • Bundled Dependencies • ~15 KB                  │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -55,7 +55,7 @@ That second question is the breakthrough. No other ledger monitors its own inter
 | **triadix-submit-tx** | Submit signed transaction to mempool. Auto-broadcasts via gossip protocol. |
 | **triadix-status** | Full chain status: validation, health, coherence, mempool, contracts, consensus, network. |
 | **triadix-health-report** | Detailed health report with ASCII coherence chart and markdown summary. |
-| **triadix-deploy-contract** | Deploy or call smart contracts. Sandboxed JS VM with state, logging, transfers. |
+| **triadix-deploy-contract** | Deploy or call smart contracts. Experimental gas-metered JS execution with state, logging, transfers; not a hardened security sandbox. |
 | **triadix-consensus** | BFT-lite consensus: propose → vote → quorum (2/3) → commit finalized blocks. |
 | **triadix-gossip** | P2P gossip protocol: peers, broadcast TXs/blocks, network discovery, full simulation. |
 | **triadix-persist** | Chain persistence: save/load, import/export, list chains, AGNT SQLite integration. |
@@ -126,7 +126,7 @@ This creates three independent but entangled hash trajectories. The coherence be
 
 ## Smart Contract VM
 
-Contracts are sandboxed JavaScript with access to:
+Contracts use experimental gas-metered JavaScript execution with access to:
 - **`state`** — persistent key-value store (committed on-chain)
 - **`caller`** — address that triggered this call
 - **`args`** — method arguments
@@ -173,7 +173,7 @@ Falls back to JSON file persistence when no DB context available.
 | 100K block validation | < 3 seconds |
 | Memory (100 blocks) | ~200 KB |
 | Memory (10K blocks) | ~20 MB |
-| Plugin size | 15.3 KB (zero dependencies) |
+| Plugin size | Generated .agnt package with bundled dependencies |
 
 ## Use Cases
 

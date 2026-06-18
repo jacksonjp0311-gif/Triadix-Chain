@@ -1,8 +1,8 @@
 {
   "name": "triadix-ledger",
   "displayName": "Triadix Ledger",
-  "version": "3.0.0",
-  "description": "Coherence-native triadic ledger kernel v3.0. Full distributed ledger platform: triadic hash chains, coherence monitoring, smart contracts with gas metering, Ed25519 wallet signing, Merkle proofs, PBFT consensus with view changes, WebSocket P2P gossip, agent memory integration, and SQLite persistence. Zero dependencies.",
+  "version": "3.0.1",
+  "description": "Coherence-native triadic ledger kernel v3.0.1. Full distributed ledger platform: triadic hash chains, coherence monitoring, smart contracts with gas metering, Ed25519 wallet signing, Merkle proofs, PBFT consensus with view changes, WebSocket P2P gossip, agent memory integration, and SQLite persistence. Includes WebSocket dependency for P2P gossip.",
   "author": "James Jackson",
   "icon": "link",
   "homepage": "https://github.com/jacksonjp0311-gif",
@@ -117,7 +117,7 @@
         "category": "action",
         "type": "triadix-deploy-contract",
         "icon": "link",
-        "description": "Deploy or call smart contracts with gas metering. Sandboxed JS VM with state, logging, transfers.",
+        "description": "Deploy or call experimental gas-metered JS contracts with state, logging, transfers. Not a hardened security sandbox.",
         "parameters": {
           "stateFile": { "type": "string", "inputType": "text", "required": false, "description": "Path to ledger_state.json" },
           "contractAddress": { "type": "string", "inputType": "text", "required": true, "description": "Contract address/ID" },
