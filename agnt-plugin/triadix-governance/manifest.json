@@ -1,0 +1,134 @@
+{
+  "name": "triadix-governance",
+  "displayName": "Triadix Governance",
+  "version": "1.0.0",
+  "description": "Smart contract governance for AGNT. Create DAOs, propose actions, vote, and execute decisions on the Triadix Chain ledger. Any agent can install and use this plugin to participate in decentralized governance.",
+  "author": "James Jackson",
+  "icon": "link",
+  "homepage": "https://github.com/jacksonjp0311-gif/Triadix-Chain",
+  "tools": [
+    {
+      "type": "gov-create-dao",
+      "entryPoint": "./gov-create-dao.js",
+      "schema": {
+        "title": "Create DAO",
+        "category": "action",
+        "type": "gov-create-dao",
+        "icon": "link",
+        "description": "Create a new DAO with governance rules encoded as a smart contract on the Triadix Chain ledger.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to triadix ledger state file" },
+          "daoName": { "type": "string", "inputType": "text", "required": true, "description": "Name of the DAO" },
+          "founder": { "type": "string", "inputType": "text", "required": true, "description": "Founder agent ID" },
+          "quorum": { "type": "number", "inputType": "number", "required": false, "default": 50, "minimum": 1, "maximum": 100, "description": "Quorum percentage required to pass proposals (default 50%)" },
+          "votingPeriod": { "type": "number", "inputType": "number", "required": false, "default": 100, "minimum": 1, "description": "Voting period in blocks (default 100)" },
+          "members": { "type": "string", "inputType": "text", "required": false, "description": "Comma-separated initial member agent IDs" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "daoAddress": { "type": "string" },
+          "daoName": { "type": "string" }, "founder": { "type": "string" },
+          "quorum": { "type": "number" }, "votingPeriod": { "type": "number" },
+          "members": { "type": "array" }, "txId": { "type": "string" },
+          "chainLength": { "type": "number" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "gov-propose",
+      "entryPoint": "./gov-propose.js",
+      "schema": {
+        "title": "Create Proposal",
+        "category": "action",
+        "type": "gov-propose",
+        "icon": "link",
+        "description": "Submit a new proposal to a DAO. Proposals can be actions, parameter changes, or member management.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to triadix ledger state file" },
+          "daoAddress": { "type": "string", "inputType": "text", "required": true, "description": "DAO contract address" },
+          "proposer": { "type": "string", "inputType": "text", "required": true, "description": "Proposer agent ID (must be DAO member)" },
+          "proposalType": { "type": "string", "inputType": "select", "required": true, "options": ["action", "add_member", "remove_member", "change_quorum", "change_voting_period", "custom"], "default": "action", "description": "Type of proposal" },
+          "title": { "type": "string", "inputType": "text", "required": true, "description": "Proposal title" },
+          "description": { "type": "string", "inputType": "textarea", "required": false, "description": "Proposal description" },
+          "targetAgent": { "type": "string", "inputType": "text", "required": false, "description": "Target agent ID (for add/remove member)" },
+          "newQuorum": { "type": "number", "inputType": "number", "required": false, "description": "New quorum % (for change_quorum)" },
+          "newVotingPeriod": { "type": "number", "inputType": "number", "required": false, "description": "New voting period in blocks (for change_voting_period)" },
+          "actionData": { "type": "string", "inputType": "textarea", "required": false, "description": "JSON action data (for action or custom proposals)" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "proposalId": { "type": "string" },
+          "proposalType": { "type": "string" }, "proposer": { "type": "string" },
+          "txId": { "type": "string" }, "chainLength": { "type": "number" },
+          "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "gov-vote",
+      "entryPoint": "./gov-vote.js",
+      "schema": {
+        "title": "Vote on Proposal",
+        "category": "action",
+        "type": "gov-vote",
+        "icon": "link",
+        "description": "Cast a vote on an active DAO proposal. Only DAO members can vote.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to triadix ledger state file" },
+          "daoAddress": { "type": "string", "inputType": "text", "required": true, "description": "DAO contract address" },
+          "proposalId": { "type": "string", "inputType": "text", "required": true, "description": "Proposal ID to vote on" },
+          "voter": { "type": "string", "inputType": "text", "required": true, "description": "Voter agent ID (must be DAO member)" },
+          "approve": { "type": "string", "inputType": "select", "required": true, "options": ["true", "false"], "default": "true", "description": "Vote approve or reject" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "proposalId": { "type": "string" },
+          "voter": { "type": "string" }, "vote": { "type": "string" },
+          "yesVotes": { "type": "number" }, "noVotes": { "type": "number" },
+          "txId": { "type": "string" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "gov-execute",
+      "entryPoint": "./gov-execute.js",
+      "schema": {
+        "title": "Execute Proposal",
+        "category": "action",
+        "type": "gov-execute",
+        "icon": "link",
+        "description": "Execute a passed proposal. The proposal must have reached quorum and the voting period must have ended.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to triadix ledger state file" },
+          "daoAddress": { "type": "string", "inputType": "text", "required": true, "description": "DAO contract address" },
+          "proposalId": { "type": "string", "inputType": "text", "required": true, "description": "Proposal ID to execute" },
+          "executor": { "type": "string", "inputType": "text", "required": true, "description": "Executor agent ID" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "proposalId": { "type": "string" },
+          "result": { "type": "object" }, "txId": { "type": "string" },
+          "chainLength": { "type": "number" }, "error": { "type": "string" }
+        }
+      }
+    },
+    {
+      "type": "gov-dao-info",
+      "entryPoint": "./gov-dao-info.js",
+      "schema": {
+        "title": "DAO Info",
+        "category": "action",
+        "type": "gov-dao-info",
+        "icon": "link",
+        "description": "Get full information about a DAO: members, proposals, governance rules, and status.",
+        "parameters": {
+          "stateFile": { "type": "string", "inputType": "text", "required": true, "description": "Path to triadix ledger state file" },
+          "daoAddress": { "type": "string", "inputType": "text", "required": true, "description": "DAO contract address" }
+        },
+        "outputs": {
+          "success": { "type": "boolean" }, "daoName": { "type": "string" },
+          "founder": { "type": "string" }, "members": { "type": "array" },
+          "quorum": { "type": "number" }, "votingPeriod": { "type": "number" },
+          "proposalCount": { "type": "number" }, "proposals": { "type": "array" },
+          "error": { "type": "string" }
+        }
+      }
+    }
+  ]
+}
